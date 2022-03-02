@@ -8,8 +8,13 @@ const app = express()
 dotenv.config({path:'../config.env'});
 const port = process.env.PORT;
 
+
+
+// Avalable routes
+app.use('/api/auth',require('./routes/auth'));
+
 app.get('/', (req, res) => {
-  res.send('Hello world!')
+  res.send('Service Easy Backend!')
 })
 
 app.listen(port, () => {
