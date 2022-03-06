@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const ServiceProvider = new mongoose.Schema({
+// TODO: add a unique field in required parameter
+const ServiceProviderSchema = new mongoose.Schema({
   owner_name: {
     type: String,
     required: true,
@@ -7,6 +8,7 @@ const ServiceProvider = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique:true
   },
   organization_name: {
     type: String,
@@ -16,8 +18,15 @@ const ServiceProvider = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Timing: {
-    type: String,
-    required: true,
+  password:{
+    type:String,
+    required:true
+
+  },
+  Date: {
+    type: Date,
+    default: Date.now
   },
 });
+
+module.exports = mongoose.model("SERVICE_PROVIDER",ServiceProviderSchema);

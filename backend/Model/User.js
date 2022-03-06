@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
-
+// TODO: add a unique field in required parameter
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -8,11 +8,13 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique:true
   },
   phone: {
     type: Number,
-    required: true
+    required: true,
+    unique:true
   },
   password: {
     type: String,
