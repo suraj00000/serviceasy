@@ -3,16 +3,16 @@ const router = express.Router();
 const User = require("../Model/User");
 const { body, validator, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 
+const dotenv = require("dotenv");
 dotenv.config({ path: "../config.env" });
 
-const  JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Create a user using:POST "/routes/auth". Doesn't require Login
+// Create a user using:POST "/routes/auth/createUser". Doesn't require Login
 router.post(
-  "/",
+  "/createUser",
   [
     body("email", "Enter a valid email").isEmail(),
     body("name", "Enter a valid name(min->3)").isLength({ min: 3 }),
@@ -45,17 +45,16 @@ router.post(
         email: req.body.email,
         phone: req.body.phone,
         password: secPassword,
-      })
+      });
       const data = {
-        user:{
-          id:user.id
-        }
-      }
-      const authToken = jwt.sign(data,JWT_SECRET);
-      console.log(authToken);
-      res.json({authToken});
+        user: {
+          id: user.id,
+        },
+      };
+      const authToken = jwt.sign(data, JWT_SECRET);
+      res.json({ authToken });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error create" });
+      res.status(500).send("Internal server error");
     }
   }
 );
@@ -69,20 +68,36 @@ router.post(
   ],
   async (req, res) => {
     // if entered value is not validated by express-validator
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    const { email, password } = req.body;
     try {
-      const { email, password } = res.body;
-      // let email = await User.findOne({ email });
       // if email not found
-      if (!email) {
-        return res.status(404).json({ Error: "Please try to user correct " });
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ Error: "Please try to user correct credentials" });
       }
+      const passwordCoampare = await bcrypt.compare(password, user.password);
+      if (!passwordCoampare) {
+        return res
+          .status(404)
+          .json({ Error: "Please try to user correct credentials" });
+      }
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+      const authToken = jwt.sign(data, JWT_SECRET);
+      res.json({ authToken });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).send("Internal server error");
     }
   }
 );
