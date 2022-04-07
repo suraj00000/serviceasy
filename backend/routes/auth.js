@@ -4,6 +4,7 @@ const User = require("../Model/User");
 const { body, validator, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const fetchUser = require("../middlewere/fetchUser");
 
 const dotenv = require("dotenv");
 dotenv.config({ path: "../config.env" });
@@ -68,7 +69,7 @@ router.post(
   ],
   async (req, res) => {
     // if entered value is not validated by express-validator
-    
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -101,5 +102,17 @@ router.post(
     }
   }
 );
+
+// Get logedin user details :POST "/routes/auth/getuser". require Login
+router.post("/getuser", fetchUser, async (req, res) => {
+  try {
+    userID = req.user.id;
+    // select is user for removing a perticular response form json
+    const user = await User.findById(userID).select("-password");
+    res.send(user);
+  } catch (error) {
+    res.status(500).send("!!!Internals server error");
+  }
+});
 
 module.exports = router;

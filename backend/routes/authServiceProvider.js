@@ -4,6 +4,8 @@ const ServiceProvider = require("../Model/ServiceProvider");
 const { body, validator, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fetchUser = require("../middlewere/fetchUser");
+const fetchserviceprovider = require("../middlewere/fetchServiceProvider");
 
 // taking data from .env file
 const dotenv = require("dotenv");
@@ -62,7 +64,7 @@ router.post(
   }
 );
 
-// Create a user using:POST "/api/auth/serviceProvider/login". Doesn't require Auth
+// login a user using:POST "/api/auth/serviceProvider/login". Doesn't require Auth
 router.post(
   "/login",
   [
@@ -104,5 +106,17 @@ router.post(
     }
   }
 );
+
+// Get logedin user details :POST "/api/auth/serviceProvider/getuser". require Login
+router.post("/getuser", fetchserviceprovider, async (req, res) => {
+  try {
+    userID = req.serviceprovider.id;
+    // select is user for removing a perticular response form json
+    const serviceprovider = await ServiceProvider.findById(userID).select("-password");
+    res.send(serviceprovider);
+  } catch (error) {
+    res.status(500).send("Internal server error Service Provider");
+  }
+});
 
 module.exports = router;
