@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Varta:wght@300&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Varta', sans-serif;
+}
+
+body{
+    background: #19123b;
+}
+.card{
+    border: none;
+    border-top: 5px solid rgb(176, 106, 252);
+    background-color: #212042;
+    color: #575578;
+}
+.main_div{
+    height: 100vh;
+}

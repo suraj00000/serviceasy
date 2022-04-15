@@ -10,7 +10,7 @@ const fetchserviceprovider = require("../middlewere/fetchServiceProvider");
 // taking data from .env file
 const dotenv = require("dotenv");
 dotenv.config({ path: "../config.env" });
-const JWT_SECRET = process.env.JWT_SECRET;
+dotenv.config({ path:  `${__dirname}/../config.env`});
 
 // Create a user using:POST "/api/auth/serviceProvider/createUser". Doesn't require Auth
 router.post(
