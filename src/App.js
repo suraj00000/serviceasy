@@ -11,13 +11,15 @@ import { ServiceProvider_Login } from "./components/ServiceProvider/Auth/Service
 import { ServiceProvider_Signup } from "./components/ServiceProvider/Auth/ServiceProvider_Signup";
 function App() {
   const element = `Servic<span style={{ color: "#db048c" }}>Easy</span>`;
+  const envfile = process.env.REACT_APP_PUBLIC_URL
+  console.log(envfile);
   return (
     <>
       <Router>
         <Navbar title="ServicEasy"/>
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Home env={envfile} />} />
             <Route exact path="/login" element={<Login heading="Login to Your Account" />} />
             <Route exact path="/signup" element={<Signup heading="Create a new account" />} />
             <Route exact path="/SPlogin" element={<ServiceProvider_Login heading="Login to Your Account"/>} />

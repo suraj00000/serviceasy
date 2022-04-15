@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const fetchUser = require("../middlewere/fetchUser");
 
 const dotenv = require("dotenv");
-dotenv.config({ path:  `${__dirname}/../config.env`});
+dotenv.config({ path:  `${__dirname}/../.env.local`});
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.box {
+  height: 100px;
+  width: 100px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+}
+.image {
+  height: 32px;
+  width: 32px;
+}
+.box:hover{
+    background-color: rgb(241, 241, 241);
+}
+a{
+    text-decoration: none;
+}

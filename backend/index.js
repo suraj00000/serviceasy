@@ -5,7 +5,7 @@ const express = require("express");
 connectToMongo();
 const app = express();
 
-dotenv.config({ path:  `${__dirname}/../config.env`});
+dotenv.config({ path:  `${__dirname}/../.env.local`});
 const port = process.env.PORT;
 
 // if we wnat to use the req.body
