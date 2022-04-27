@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import About from "./components/About";
 import Login from "./components/User/Auth/Login";
 import { Signup } from "./components/User/Auth/Signup";
@@ -16,7 +16,7 @@ function App() {
   console.log(envfile);
   return (
     <>
-      <UserState>
+      {/* <UserState> */}
         <Router>
           <Navbar title="ServicEasy" />
           <div className="container">
@@ -51,7 +51,7 @@ function App() {
           </div>
           <Footer />
         </Router>
-      </UserState>
+      {/* </UserState> */}
     </>
   );
 }
