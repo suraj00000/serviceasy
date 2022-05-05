@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const ServiceProvider_Signup = (props) => {
+export const ServiceProviderSignup = (props) => {
   return (
     <div className="row d-flex justify-content-center align-items-center max_width">
       <div className="col-12 col-sm-12 col-md-8 col-xl-6 col-xxl-6">
