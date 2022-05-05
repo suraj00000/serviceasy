@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const connectToMongo = require("./db");
 const express = require("express");
+var cors = require('cors');
 
 connectToMongo();
 const app = express();
@@ -8,6 +9,8 @@ const app = express();
 dotenv.config({ path:  `${__dirname}/../.env.local`});
 const port = process.env.PORT;
 
+
+app.use(cors());
 // if we wnat to use the req.body
 app.use(express.json());
 

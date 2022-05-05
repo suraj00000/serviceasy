@@ -73,6 +73,7 @@ router.post(
   ],
   async (req, res) => {
     //   errors form the validator
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -83,7 +84,7 @@ router.post(
       if (!serviceprovider) {
         return res
           .status(404)
-          .json({ Error: "Please try to user correct credentials" });
+          .json({ success,Error: "Please try to user correct credentials" });
       }
       const passwordCoampare = await bcrypt.compare(
         password,
@@ -92,7 +93,7 @@ router.post(
       if (!passwordCoampare) {
         return res
           .status(404)
-          .json({ Error: "Please try to user correct credentials" });
+          .json({ success,Error: "Please try to user correct credentials" });
       }
       const data = {
         serviceprovider: {
@@ -100,7 +101,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success,authToken });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
