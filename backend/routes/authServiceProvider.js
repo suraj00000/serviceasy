@@ -9,8 +9,8 @@ const fetchserviceprovider = require("../middlewere/fetchServiceProvider");
 
 // taking data from .env file
 const dotenv = require("dotenv");
-dotenv.config({ path: "../config.env" });
 dotenv.config({ path:  `${__dirname}/../.env.local`});
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Create a user using:POST "/api/auth/serviceProvider/createUser". Doesn't require Auth
 router.post(
@@ -27,12 +27,13 @@ router.post(
     body("password", "Enter a valid password(min->5)").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    try {
+    
       //   errors form the validator
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
+      try {
       let email = await ServiceProvider.findOne({ email: req.body.email });
       if (email) {
         return res
@@ -83,25 +84,26 @@ router.post(
       let serviceprovider = await ServiceProvider.findOne({ email });
       if (!serviceprovider) {
         return res
-          .status(404)
-          .json({ success,Error: "Please try to user correct credentials" });
+        .status(404)
+        .json({ success,Error: " eamil Please try to user correct credentials" });
       }
       const passwordCoampare = await bcrypt.compare(
         password,
         serviceprovider.password
-      );
-      if (!passwordCoampare) {
-        return res
+        );
+        if (!passwordCoampare) {
+          return res
           .status(404)
-          .json({ success,Error: "Please try to user correct credentials" });
-      }
-      const data = {
-        serviceprovider: {
-          id: serviceprovider.id,
-        },
-      };
-      const authToken = jwt.sign(data, JWT_SECRET);
-      success = true;
+          .json({ success,Error: "PAssword Please try to user correct credentials" });
+        }
+        const data = {
+          serviceprovider: {
+            id: serviceprovider.id,
+          },
+        };
+        const authToken = jwt.sign(data, JWT_SECRET);
+        console.log("HERE++++++++++++++++++++++++++++");
+        success = true;
       res.json({ success,authToken });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
