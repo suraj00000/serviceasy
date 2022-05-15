@@ -27,6 +27,10 @@ const ServiceProviderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  type:{
+    type:String,
+    default:"SP"
+  },
 });
 
 module.exports = mongoose.model("SERVICE_PROVIDER",ServiceProviderSchema);

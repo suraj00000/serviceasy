@@ -26,17 +26,18 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     try {
+      let success = false;
       let user = await User.findOne({ email: req.body.email });
       let phone = await User.findOne({ phone: req.body.phone });
       if (phone) {
         return res
           .status(400)
-          .json({ errors: "A user with this phone number already exists" });
+          .json({ success,errors: "A user with this phone number already exists" });
       }
       if (user) {
         return res
           .status(400)
-          .json({ error: "A user with this email already exists" });
+          .json({ success,error: "A user with this email already exists" });
       }
       const salt = await bcrypt.genSalt(10);
       secPassword = await bcrypt.hash(req.body.password, salt);
@@ -53,7 +54,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success =true;
+      res.json({ success,authToken });
     } catch (error) {
       res.status(500).send("Internal server error");
     }
