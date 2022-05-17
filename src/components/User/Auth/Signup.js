@@ -12,11 +12,11 @@ export const Signup = (props) => {
     e.preventDefault();
     removeWarningTag();
     if (!dataChecker()) {
-      userState.signup(credentials.fname + " " + credentials.lname, credentials.email, credentials.phone, credentials.password);      
-    } else {
-      console.log("Enter a valid data");
-    }
-    // console.log("=>>>>>>>>>>>>>>>>>>>>>>>>>"+element1);
+      const data =userState.signup(credentials.fname + " " + credentials.lname, credentials.email, credentials.phone, credentials.password);      
+      if(!data.success){
+        props.showAlert("Something went wrong","danger");
+      }
+    } 
 
   }
   const [credentials, setCredentials] = useState({ fname: "", lname: "", email: "", phone: "", password: "", confirmpassword: "" });
@@ -31,16 +31,20 @@ export const Signup = (props) => {
     if (credentials.fname === "" || credentials.lname === "" ) {
       warningTag('fname');
       warningTag('lname');
+      props.showAlert("Plese Enter a first and second name","danger");
       error = true
     } else if ((credentials.password != credentials.confirmpassword)||credentials.password=== "") {
       warningTag("password");
       warningTag("confirmpassword")
+      props.showAlert("Password doesn't match","danger");
       error = true;
     } else if ((credentials.phone.length != 10) || isNaN(credentials.phone)) {
+      props.showAlert("Enter a valid phone number","danger");
       warningTag("phone");
       error = true;
-    }else if(credentials.email === ""){
+    }else if(credentials.email === "" || !validateEmail(credentials.email)){
       warningTag("email");
+      props.showAlert("Enter a valid email address","danger");
       error = true;
     }
     return error;
@@ -60,6 +64,13 @@ export const Signup = (props) => {
       // console.log("Removed"+value);
     })
   }
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      );
+  };
 
   return (
     <div className="row d-flex justify-content-center align-items-center max_width">

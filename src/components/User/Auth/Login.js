@@ -8,12 +8,42 @@ const Login = (props) => {
   const userContext = useContext(UserContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    userContext.login(credentials.email, credentials.password);
+
+    if(!dataValidate()){
+      const data = userContext.login(credentials.email, credentials.password);
+      if(!data.success){
+        props.showAlert("Plese use valid email and password","danger");        
+      }
+    }else{
+      props.showAlert("Plese use valid email and password","danger");
+    }
+    
   };
   const onChange = (e) => {
     setCredentials({
       ...credentials, [e.target.name]: e.target.value
     })
+  };
+
+
+  const dataValidate = ()=>{    
+    if(!validateEmail(credentials.email)){
+      console.log(credentials.email);
+      return true
+    }else if(credentials.password == ""){
+      console.log(credentials.password);
+      return true
+    }
+    return false
+  }
+
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      );
   };
   return (
     <div className="row d-flex justify-content-center align-items-center max_width">
@@ -32,6 +62,7 @@ const Login = (props) => {
               aria-describedby="emailHelp"
               value={credentials.email}
               onChange={onChange}
+              required
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
@@ -48,6 +79,7 @@ const Login = (props) => {
               id="password"
               value={credentials.password}
               onChange={onChange}
+              required
             />
           </div>
           <div className="mb-3 form-check">

@@ -30,6 +30,7 @@ export const ServiceProviderLogin = (props) => {
               aria-describedby="emailHelp"
               name="email"
               onChange={onChange}
+              required
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
@@ -45,6 +46,7 @@ export const ServiceProviderLogin = (props) => {
               id="password"
               name="password"
               onChange={onChange}
+              required
             />
           </div>
           <div className="mb-3 form-check">

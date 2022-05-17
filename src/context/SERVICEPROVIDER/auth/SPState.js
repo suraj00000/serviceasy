@@ -42,7 +42,7 @@ const SPState = (props) => {
             storeData();
             navigate("/");
         } else {
-            // warning alert
+            return json;
         }
 
     }
@@ -63,7 +63,7 @@ const SPState = (props) => {
             storeData();
             navigate("/");
         } else {
-            // warning alert
+            return json
         }
     }
     const logout = ()=>{

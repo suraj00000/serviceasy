@@ -20,9 +20,11 @@ export const ServiceProviderSignup = (props) => {
     removeWarningTag();
     console.log(credentials);
     if (!dataChecker()) {
-      spContext.signup(credentials.fname+" "+credentials.lname,credentials.email, credentials.OragnizationName, credentials.inputAddress+" "+credentials.inputAddress2+" "+credentials.inputCity+" "+credentials.inputState+" "+credentials.inputZip, credentials.password);
-    }else{
-      console.log("Enter a valid data:");
+
+      const data = spContext.signup(credentials.fname+" "+credentials.lname,credentials.email, credentials.OragnizationName, credentials.inputAddress+" "+credentials.inputAddress2+" "+credentials.inputCity+" "+credentials.inputState+" "+credentials.inputZip, credentials.password);
+      if(!data.success){
+        props.showAlert("Something went wrong","danger");
+      }
     }
   }
 
@@ -31,21 +33,25 @@ export const ServiceProviderSignup = (props) => {
     if (credentials.fname === "" || credentials.lname === "") {
       warningTag('fname');
       warningTag('lname');
+      props.showAlert("Plese Enter a first and second name","danger");
       error = true;
       return error;
     } else if ((credentials.password != credentials.confirmpassword) || credentials.password === "") {
       warningTag("password");
       warningTag("confirmpassword");
+      props.showAlert("Password doesn't match","danger");
       error = true;
       return error;
 
     } else if ((credentials.inputZip.length != 6) || isNaN(credentials.inputZip)) {
       warningTag("inputZip");
+      props.showAlert("Enter a valid Zip code number","danger");
       error = true;
       return error;
 
     } else if ( credentials.email === "" || credentials.email.length!=10 ) {
       warningTag("email");
+      props.showAlert("Enter a valid email number","danger");
       error = true;
       return error;
     } else if (credentials.OragnizationName == "") {
@@ -101,7 +107,7 @@ export const ServiceProviderSignup = (props) => {
                 name="fname"
                 id="fname"
                 onChange={onChange}
-                // required
+                required
               />
             </div>
             <div className="col">
@@ -113,7 +119,7 @@ export const ServiceProviderSignup = (props) => {
                 name="lname"
                 id="lname"
                 onChange={onChange}
-                // required
+                required
               />
             </div>
           </div>
@@ -141,7 +147,7 @@ export const ServiceProviderSignup = (props) => {
               id="email"
               name="email"
               onChange={onChange}
-              // required
+              required
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
@@ -158,7 +164,7 @@ export const ServiceProviderSignup = (props) => {
                 id="password"
                 name="password"
                 onChange={onChange}
-                // required
+                required
               />
             </div>
             <div className="col mb-3">
@@ -171,7 +177,7 @@ export const ServiceProviderSignup = (props) => {
                 id="confirmpassword"
                 name="confirmpassword"
                 onChange={onChange}
-                // required
+                required
               />
             </div>
           </div>
@@ -187,7 +193,7 @@ export const ServiceProviderSignup = (props) => {
                 name="inputAddress"
                 placeholder="1234 Main St"
                 onChange={onChange}
-                // required
+                required
               />
             </div>
             <div className="col-12  mb-3">
@@ -214,7 +220,7 @@ export const ServiceProviderSignup = (props) => {
                 State
               </label>
               <select id="inputState"  name="inputState" className="form-select" onChange={onChange}>
-                <option value={"asdff"} >
+                <option value={"null"} >
                   Choose...
                 </option>
                 <option value={"Andhra Pradesh"}>Andhra Pradesh </option>
